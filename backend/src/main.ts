@@ -1,29 +1,20 @@
+// backend/src/main.ts
 import { NestFactory } from '@nestjs/core';
-import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Enable CORS for frontend
-  app.enableCors({
-    origin: ['http://localhost:3000', 'http://localhost:3001'],
-    methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
-    credentials: true,
-  });
+  // 1. Enable CORS for your Vercel frontend URL
+  app.enableCors();
 
-  // Global validation pipe
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-      forbidNonWhitelisted: true,
-      transform: true,
-    }),
-  );
+  // 2. Global Validation
+  app.useGlobalPipes(new ValidationPipe());
 
+  // 3. Bind to 0.0.0.0 and use Render's PORT
   const port = process.env.PORT || 4000;
-  await app.listen(port);
-  console.log(`\n🍟 McDonald's Payroll API running on http://localhost:${port}`);
-  console.log(`📋 Environment: ${process.env.NODE_ENV || 'development'}\n`);
+  await app.listen(port, '0.0.0.0');
+  console.log(`Backend is running on port: ${port}`);
 }
 bootstrap();
