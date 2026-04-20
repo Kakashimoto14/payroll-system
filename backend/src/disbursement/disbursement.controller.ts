@@ -4,10 +4,10 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
 
-@Controller('api/disbursement')
+@Controller('disbursement')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class DisbursementController {
-  constructor(private readonly disbursementService: DisbursementService) {}
+  constructor(private readonly disbursementService: DisbursementService) { }
 
   @Post(':payrollId')
   @Roles('HR_ADMIN')

@@ -6,7 +6,7 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // 1. ADD THIS LINE: Tell NestJS that all routes start with /api
+  // 1. Add this back: Set the global prefix ONCE for the whole app
   app.setGlobalPrefix('api');
 
   // 2. Enable CORS for your Vercel frontend URL
