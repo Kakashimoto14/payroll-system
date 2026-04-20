@@ -6,7 +6,10 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // 1. Enable CORS for your Vercel frontend URL
+  // 1. ADD THIS LINE: Tell NestJS that all routes start with /api
+  app.setGlobalPrefix('api');
+
+  // 2. Enable CORS for your Vercel frontend URL
   app.enableCors({
     origin: [
       'https://payroll-system-jet.vercel.app',
@@ -17,10 +20,10 @@ async function bootstrap() {
     credentials: true,
   });
 
-  // 2. Global Validation
+  // 3. Global Validation
   app.useGlobalPipes(new ValidationPipe());
 
-  // 3. Bind to 0.0.0.0 and use Render's PORT
+  // 4. Bind to 0.0.0.0 and use Render's PORT
   const port = process.env.PORT || 4000;
   await app.listen(port, '0.0.0.0');
   console.log(`Backend is running on port: ${port}`);
