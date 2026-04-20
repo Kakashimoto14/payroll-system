@@ -7,7 +7,15 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // 1. Enable CORS for your Vercel frontend URL
-  app.enableCors();
+  app.enableCors({
+    origin: [
+      'https://payroll-system-jet.vercel.app',
+      'http://localhost:3000',
+    ],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+  });
 
   // 2. Global Validation
   app.useGlobalPipes(new ValidationPipe());
